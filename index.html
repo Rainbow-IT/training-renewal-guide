@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Renewal Guide — NDIS Provider</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --blue-dark: #0C447C;
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-dark: #085041;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-dark: #633806;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --coral-dark: #4A1B0C;
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --text: #1a1a18;
+    --muted: #6b6b66;
+    --faint: #b0b0a8;
+    --border: rgba(0,0,0,0.1);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.4rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+    animation: fadeUp .4s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.09);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .card-blob {
+    position: absolute;
+    top: 0; right: 0;
+    width: 70px; height: 70px;
+    border-bottom-left-radius: 70px;
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  .card-blue::before  { background: var(--blue); }
+  .card-green::before { background: var(--green); }
+  .card-amber::before { background: var(--amber); }
+  .card-coral::before { background: var(--coral); }
+
+  .card-blue  .card-blob { background: var(--blue-light); }
+  .card-green .card-blob { background: var(--green-light); }
+  .card-amber .card-blob { background: var(--amber-light); }
+  .card-coral .card-blob { background: var(--coral-light); }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-right: 40px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .badge-blue  { background: var(--blue-light);  color: var(--blue-dark); }
+  .badge-green { background: var(--green-light); color: var(--green-dark); }
+  .badge-amber { background: var(--amber-light); color: var(--amber-dark); }
+  .badge-coral { background: var(--coral-light); color: var(--coral-dark); }
+
+  .items { list-style: none; }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .card-hint {
+    font-size: 11px;
+    color: var(--faint);
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .freq-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .freq-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .freq-bar {
+    flex: 1;
+    min-width: 160px;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .freq-bar div { height: 100%; }
+
+  .legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-swatch {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .tip {
+    background: var(--surface);
+    border-left: 3px solid var(--border);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border: 1px solid var(--border);
+    border-left-width: 3px;
+    border-left-color: var(--faint);
+    padding: 10px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tip svg { flex-shrink: 0; margin-top: 1px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: .05s; }
+  .card:nth-child(2) { animation-delay: .15s; }
+  .card:nth-child(3) { animation-delay: .25s; }
+  .card:nth-child(4) { animation-delay: .35s; }
+
+  @media (max-width: 500px) {
+    body { padding: 1rem .75rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">NDIS Provider</div>
+    <h1>Training renewal guide</h1>
+    <p class="subtitle">Recommended refresh intervals for core competencies</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card card-blue">
+      <div class="card-blob"></div>
+      <div class="card-title">Hand hygiene</div>
+      <div class="badge badge-blue">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#0C447C" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="#0C447C" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Renew every 12 months
+      </div>
+      <ul class="items">
+        <li class="item"><span class="dot" style="background:var(--blue)"></span>6 months if high personal care or outbreaks</li>
+        <li class="item"><span class="dot" style="background:var(--blue)"></span>Annual acceptable, 6-monthly more defensible</li>
+      </ul>
+    </div>
+
+    <div class="card card-green">
+      <div class="card-blob"></div>
+      <div class="card-title">Infection prevention &amp; control</div>
+      <div class="badge badge-green">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#085041" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="#085041" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Renew every 12 months
+      </div>
+      <ul class="items">
+        <li class="item"><span class="dot" style="background:var(--green)"></span>Plus event-based refresh (outbreak, policy change)</li>
+        <li class="item"><span class="dot" style="background:var(--green)"></span>Do not extend beyond a year</li>
+      </ul>
+    </div>
+
+    <div class="card card-amber">
+      <div class="card-blob"></div>
+      <div class="card-title">NDIS supporting effective communication</div>
+      <div class="badge badge-amber">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#633806" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="#633806" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Renew every 2–3 years
+      </div>
+      <ul class="items">
+        <li class="item"><span class="dot" style="background:var(--amber)"></span>Earlier if BSP or participant needs change</li>
+        <li class="item"><span class="dot" style="background:var(--amber)"></span>Earlier if communication-related incidents occur</li>
+      </ul>
+    </div>
+
+    <div class="card card-coral">
+      <div class="card-blob"></div>
+      <div class="card-title">Worker orientation</div>
+      <div class="badge badge-coral">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2v12" stroke="#4A1B0C" stroke-width="1.5" stroke-linecap="round"/></svg>
+        On commencement + refresh
+      </div>
+      <ul class="items">
+        <li class="item"><span class="dot" style="background:var(--coral)"></span>Core refresher every 2 years (or annual light touch)</li>
+        <li class="item"><span class="dot" style="background:var(--coral)"></span>Trigger refresh when policies or systems change</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="freq-bar-wrap">
+    <span class="freq-label">Renewal frequency</span>
+    <div class="freq-bar">
+      <div style="flex:2;background:var(--blue);opacity:.85"></div>
+      <div style="flex:2;background:var(--green);opacity:.85"></div>
+      <div style="flex:1;background:var(--amber);opacity:.85"></div>
+      <div style="flex:1.5;background:var(--coral);opacity:.85"></div>
+    </div>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--blue)"></span>12 mo</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>12 mo</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--amber)"></span>2–3 yr</span>
+      <span class="legend-item"><span class="legend-swatch" style="background:var(--coral)"></span>Ongoing</span>
+    </div>
+  </div>
+
+  <div class="tip">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#b0b0a8" stroke-width="1.3"/><path d="M8 7v5M8 5v.5" stroke="#b0b0a8" stroke-width="1.3" stroke-linecap="round"/></svg>
+    Add event-based refresh rules across all modules. Outbreaks, policy changes, and serious incidents should trigger a review regardless of scheduled interval.
+  </div>
+
+</div>
+</body>
+</html>
